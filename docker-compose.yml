@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  telegraf:
+    image: public.ecr.aws/y0p9c9b2/telegraf:latest
+    environment:
+      - INFLUX_ORG=$INFLUX_ORG
+      - INFLUX_URL=$INFLUX_URL
+      - INFLUX_BUCKET=$INFLUX_BUCKET
+      - INFLUX_TOKEN=$INFLUX_TOKEN
+    ports:
+      - 8186:8186
+  # kapacitor:
+  #   image: kapacitor
+  #   environment:
+  #     - KAPACITOR_INFLUXDB_0_URLS_0=http://influxdb:8086
+  # chronograf:
+  #   image: chronograf
+  #   ports:
+  #     - 8888:8888
+  #   command: ['chronograf', '--influxdb-url=http://influxdb:8086']
