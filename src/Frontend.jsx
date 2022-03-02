@@ -3,7 +3,6 @@ import PlotlyComponent from './components/PlotlyComponent';
 
 const Frontend = () => {
   const { data, isLoading, isError, error } = useFetchAll();
-  // console.log({ data });
   if (isLoading) {
     return <div>Loading...</div>;
   }

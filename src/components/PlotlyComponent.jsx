@@ -12,14 +12,14 @@ export default ({ data }) => {
   return (
     <Plot
       data={[
-        {
-          x,
-          y,
-          type: 'scatter',
-          mode: 'lines+markers',
-          marker: { color: 'red' },
-        },
-        // { type: 'bar', x: [1, 2, 3], y: [2, 5, 3] },
+        // {
+        //   x,
+        //   y,
+        //   type: 'scatter',
+        //   mode: 'lines+markers',
+        //   marker: { color: 'red' },
+        // },
+        { type: 'bar', x, y },
       ]}
       layout={{
         width: 400,
