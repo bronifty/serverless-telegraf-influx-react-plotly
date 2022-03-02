@@ -2,7 +2,6 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 
 export default ({ data }) => {
-  console.log('in PlotlyComponent: ', { data });
   let x = [];
   let y = [];
   data.map((d) => {

@@ -10,9 +10,13 @@ export const fetchAll = async () => {
   })
     .then((res) => res.json())
     .then((data) => data);
-  // const data  = await res.json();
-  // return data;
 };
 export const useFetchAll = () => {
-  return useQuery(['fetchAll'], fetchAll);
+  return useQuery(['fetchAll'], fetchAll, {
+    // refetchOnWindowFocus: true,
+    // staleTime: 10000,
+    // cacheTime: 1000,
+    refetchInterval: 10000,
+    refetchIntervalInBackground: true,
+  });
 };
