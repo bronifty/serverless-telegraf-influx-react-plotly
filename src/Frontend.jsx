@@ -11,7 +11,7 @@ const Frontend = () => {
   }
   return (
     <div>
-      {data && <PlotlyComponent data={data} />}
+      {data && <PlotlyComponent {...data} />}
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );

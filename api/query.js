@@ -10,10 +10,10 @@ const client = new InfluxDB({
 const queryApi = client.getQueryApi(org);
 const query = `
 from(bucket: "fargate_mem")
-  |> range(start: -15m, stop: now())
+  |> range(start: -30m, stop: now())
   |> filter(fn: (r) => r["_measurement"] == "mem")
-  |> filter(fn: (r) => r["_field"] == "available")
-  |> aggregateWindow(every: 10s,  period: 1m, fn: mean, createEmpty: false)
+  |> filter(fn: (r) => r["_field"] == "available" or r["_field"] == "used")
+  |> aggregateWindow(every: 1m,  period: 1m, fn: mean, createEmpty: false)
   |> yield(name: "mean")
 `;
 let data = [];
@@ -28,33 +28,24 @@ export default async (req, res) => {
       console.log('Finished ERROR');
     },
     complete() {
-      res.status(200).json(data);
-      // let finalData = [];
-      // var exists = false;
-      // for (let i = 0; i < res.length; i++) {
-      //   for (let j = 0; j < finalData.length; j++) {
-      //     if (res[i]['sensor_id'] === finalData[j]['id']) {
-      //       exists = true;
-      //       let point = {};
-      //       point['x'] = res[i]['_time'];
-      //       point['y'] = res[i]['_value'];
-      //       finalData[j]['data'].push(point);
-      //     }
-      //   }
-
-      //   if (!exists) {
-      //     let d = {};
-      //     d['id'] = res[i]['sensor_id'];
-      //     d['data'] = [];
-      //     let point = {};
-      //     point['x'] = res[i]['_time'];
-      //     point['y'] = res[i]['_value'];
-      //     d['data'].push(point);
-      //     finalData.push(d);
-      //   }
-      //   exists = false;
-      // }
-      // res.status(200).json(finalData);
+      let used = [];
+      let available = [];
+      let availableTime = [];
+      let usedTime = [];
+      // let time = [];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i]['_field'] == 'used') {
+          used.push(data[i]['_value']);
+          usedTime.push(data[i]['_time']);
+        } else if (data[i]['_field'] == 'available') {
+          available.push(data[i]['_value']);
+          availableTime.push(data[i]['_time']);
+        }
+      }
+      console.log({ used, usedTime, available, availableTime });
+      res
+        .status(200)
+        .json({ data: { used, usedTime, available, availableTime } });
     },
     error(error) {
       res.status(500).json({ error: error.message });

@@ -1,31 +1,29 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
-export default ({ data }) => {
-  let x = [];
-  let y = [];
-  data.map((d) => {
-    x.push(new Date(d._time));
-    y.push(d._value / 1000000000);
-  });
-  console.log({ x, y });
+export default ({ data: { used, usedTime, available, availableTime } }) => {
+  console.log({ used, usedTime, available, availableTime });
+  // console.log({ used, usedTime, available, availableTime });
   return (
     <Plot
       data={[
-        // {
-        //   x,
-        //   y,
-        //   type: 'scatter',
-        //   mode: 'lines+markers',
-        //   marker: { color: 'red' },
-        // },
-        { type: 'bar', x, y },
+        {
+          x: usedTime.map((d) => new Date(d)),
+          y: used,
+          type: 'scatter',
+          mode: 'lines+markers',
+          marker: { color: 'red' },
+        },
+        {
+          type: 'bar',
+          x: availableTime.map((d) => new Date(d)),
+          y: available,
+          marker: { color: 'blue' },
+        },
       ]}
-      layout={{
-        width: 400,
-        height: 400,
-        title: 'AWS Fargate Container Memory (Gb)',
-      }}
+      layout={{ autosize: true, title: 'AWS Fargate Container Memory (Gb)' }}
+      useResizeHandler
+      style={{ width: '100%', height: '100%' }}
     />
   );
 };
