@@ -5,8 +5,8 @@ export default ({ data }) => {
   let x = [];
   let y = [];
   data.map((d) => {
-    x.push(d._time);
-    y.push(d._value / 1000000000);
+    x.push(new Date(d._time));
+    y.push(d._value / 1000000000 < 5 ? d._value / 1000000000 : 0);
   });
   console.log({ x, y });
   return (
