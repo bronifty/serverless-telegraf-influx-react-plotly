@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 
 export const fetchAll = async () => {
+  // throw new Error('Failed to fetch all');
   return fetch('/api/query', {
     method: 'GET',
     headers: {
