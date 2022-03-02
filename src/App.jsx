@@ -1,15 +1,12 @@
-import { useState } from 'react';
-import logo from './logo.svg';
-import data from '../data/data.js';
-import PlotlyComponent from './components/PlotlyComponent';
+import { Query } from './components/Query';
+import Frontend from './Frontend';
 
-function App() {
+const App = () => {
   return (
-    <>
-      <PlotlyComponent data={data} />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </>
+    <Query>
+      <Frontend />
+    </Query>
   );
-}
+};
 
 export default App;
