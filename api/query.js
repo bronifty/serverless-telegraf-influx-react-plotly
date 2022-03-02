@@ -8,28 +8,27 @@ const client = new InfluxDB({
 });
 
 const queryApi = client.getQueryApi(org);
-const query = `from(bucket: "fargate_mem")
-  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+const query = `
+from(bucket: "fargate_mem")
+  |> range(start: -15m, stop: now())
   |> filter(fn: (r) => r["_measurement"] == "mem")
   |> filter(fn: (r) => r["_field"] == "available")
-  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
-  |> yield(name: "mean")`;
+  |> aggregateWindow(every: 10s,  period: 1m, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+`;
+let data = [];
 export default async (req, res) => {
-  // const token = process.env.INFLUX_TOKEN;
-
-  let res = [];
-
   await queryApi.queryRows(query, {
     next(row, tableMeta) {
       const o = tableMeta.toObject(row);
-      res.push(o);
+      data.push(o);
     },
     error(error) {
       console.error(error);
       console.log('Finished ERROR');
     },
     complete() {
-      res.status(200).json(res);
+      res.status(200).json(data);
       // let finalData = [];
       // var exists = false;
       // for (let i = 0; i < res.length; i++) {
