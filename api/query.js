@@ -2,21 +2,23 @@ const { InfluxDB } = require('@influxdata/influxdb-client');
 const token =
   'J3RZ9wD7uuu_uzJKQRZsYgReaA2pLcymjWC5mYD_vRPzwFHM2KqP36eI4Yy-LKPKuDd4mcDp6m8ER-W3INSjig==';
 const org = 'bronifty@gmail.com';
-export default async (req, res) => {
-  // const token = process.env.INFLUX_TOKEN;
+const client = new InfluxDB({
+  url: 'https://us-east-1-1.aws.cloud2.influxdata.com',
+  token: token,
+});
 
-  let res = [];
-  const client = new InfluxDB({
-    url: 'https://us-east-1-1.aws.cloud2.influxdata.com',
-    token: token,
-  });
-  const queryApi = client.getQueryApi(org);
-  const query = `from(bucket: "fargate_mem")
+const queryApi = client.getQueryApi(org);
+const query = `from(bucket: "fargate_mem")
   |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
   |> filter(fn: (r) => r["_measurement"] == "mem")
   |> filter(fn: (r) => r["_field"] == "available")
   |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
   |> yield(name: "mean")`;
+export default async (req, res) => {
+  // const token = process.env.INFLUX_TOKEN;
+
+  let res = [];
+
   await queryApi.queryRows(query, {
     next(row, tableMeta) {
       const o = tableMeta.toObject(row);
