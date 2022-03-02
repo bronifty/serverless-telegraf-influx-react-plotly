@@ -6,7 +6,7 @@ export default ({ data }) => {
   let y = [];
   data.map((d) => {
     x.push(d._time);
-    y.push(d._value);
+    y.push(d._value / 1000000000);
   });
   console.log({ x, y });
   return (
@@ -24,7 +24,7 @@ export default ({ data }) => {
       layout={{
         width: 400,
         height: 400,
-        title: 'AWS Fargate Container Memory',
+        title: 'AWS Fargate Container Memory (GB)',
       }}
     />
   );
