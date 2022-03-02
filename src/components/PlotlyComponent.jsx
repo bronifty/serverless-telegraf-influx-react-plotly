@@ -24,7 +24,7 @@ export default ({ data }) => {
       layout={{
         width: 400,
         height: 400,
-        title: 'AWS Fargate Container Memory (GB)',
+        title: 'AWS Fargate Container Memory (Gb)',
       }}
     />
   );
