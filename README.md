@@ -4,4 +4,4 @@
 
 [Blog Post](https://dev.to/bronifty/serverless-telegraf-influxdb-with-react-plotly-2m3b/)
 
-[Youtube Tutorial](url)
+[Youtube Tutorial](https://youtu.be/UiejSkf7WLk)
