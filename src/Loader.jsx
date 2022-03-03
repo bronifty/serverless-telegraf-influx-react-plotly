@@ -1,7 +1,7 @@
 import { useFetchAll } from './hooks';
 import PlotlyComponent from './components/PlotlyComponent';
 
-const Frontend = () => {
+const Loader = () => {
   const { data, isLoading, isError, error } = useFetchAll();
   if (isLoading) {
     return <div>Loading...</div>;
@@ -12,8 +12,8 @@ const Frontend = () => {
   return (
     <div>
       {data && <PlotlyComponent {...data} />}
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </div>
   );
 };
-export default Frontend;
+export default Loader;

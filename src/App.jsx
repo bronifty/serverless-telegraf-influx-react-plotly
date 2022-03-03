@@ -1,12 +1,12 @@
 import React from 'react';
 import { Query } from './components/Query';
-import Frontend from './Frontend';
+import Loader from './Loader';
 
 const App = () => {
   return (
     <Query>
       <ErrorBoundary>
-        <Frontend />
+        <Loader />
       </ErrorBoundary>
     </Query>
   );
