@@ -1,12 +1,9 @@
 const { InfluxDB } = require('@influxdata/influxdb-client');
-const token =
-  'J3RZ9wD7uuu_uzJKQRZsYgReaA2pLcymjWC5mYD_vRPzwFHM2KqP36eI4Yy-LKPKuDd4mcDp6m8ER-W3INSjig==';
-const org = 'bronifty@gmail.com';
+const org = process.env.INFLUX_ORG;
 const client = new InfluxDB({
-  url: 'https://us-east-1-1.aws.cloud2.influxdata.com',
-  token: token,
+  url: process.env.INFLUX_URL,
+  token: process.env.INFLUX_TOKEN,
 });
-
 const queryApi = client.getQueryApi(org);
 const query = `
 from(bucket: "fargate_mem")
